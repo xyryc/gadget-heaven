@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+  addToCart,
   clearCartList,
   getCartList,
   getStoredWishList,
@@ -13,6 +14,7 @@ import {
   removeFromCartList,
   removeFromWishList,
 } from "../utility/removeFromLs";
+import { toast } from "react-toastify";
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("cart");
@@ -26,32 +28,40 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (activeTab === "cart") {
-      const storedCartList = getCartList();
-      const storedCartListInt = storedCartList.map((id) => parseInt(id));
-
-      const cartList = allProducts.filter((product) =>
-        storedCartListInt.includes(product.product_id)
-      );
-
-      setItems(cartList);
-
-      // Calculate total price
-      const calculatedTotalPrice = cartList.reduce(
-        (acc, product) => acc + product.price,
-        0
-      );
-      setTotalPrice(calculatedTotalPrice);
+      loadCartItems();
     } else {
-      const storedWishList = getStoredWishList();
-      const storedWishListInt = storedWishList.map((id) => parseInt(id));
-
-      const wishList = allProducts.filter((product) =>
-        storedWishListInt.includes(product.product_id)
-      );
-
-      setItems(wishList);
+      loadWishlistItems();
     }
   }, [activeTab, allProducts]);
+
+  const loadCartItems = () => {
+    const storedCartList = getCartList();
+    const storedCartListInt = storedCartList.map((id) => parseInt(id));
+
+    const cartList = allProducts.filter((product) =>
+      storedCartListInt.includes(product.product_id)
+    );
+
+    setItems(cartList);
+
+    // Calculate total price
+    const calculatedTotalPrice = cartList.reduce(
+      (acc, product) => acc + product.price,
+      0
+    );
+    setTotalPrice(calculatedTotalPrice);
+  };
+
+  const loadWishlistItems = () => {
+    const storedWishList = getStoredWishList();
+    const storedWishListInt = storedWishList.map((id) => parseInt(id));
+
+    const wishList = allProducts.filter((product) =>
+      storedWishListInt.includes(product.product_id)
+    );
+
+    setItems(wishList);
+  };
 
   const handleSortByPrice = () => {
     const sortedItems = [...items].sort((a, b) => b.price - a.price);
@@ -76,25 +86,23 @@ const Dashboard = () => {
 
   const handleRemoveFromCart = (id) => {
     removeFromCartList(id);
-    setItems((prevItems) => prevItems.filter((item) => item.product_id !== id));
-    const storedCartList = getCartList();
-    const storedCartListInt = storedCartList.map((id) => parseInt(id));
-
-    const cartList = allProducts.filter((product) =>
-      storedCartListInt.includes(product.product_id)
-    );
-
-    const calculateTotalPrice = cartList.reduce(
-      (acc, item) => acc + item.price,
-      0
-    );
-
-    setTotalPrice(calculateTotalPrice);
+    loadCartItems();
   };
 
   const handleRemoveFromWishlist = (id) => {
     removeFromWishList(id);
     setItems((prevItems) => prevItems.filter((item) => item.product_id !== id));
+  };
+
+  const handleAddToCartFromWishlist = (id) => {
+    const storedCartList = getCartList();
+
+    if (storedCartList.includes(id)) {
+      toast.error("Item already exist in cart!");
+    } else {
+      addToCart(id);
+      handleRemoveFromWishlist(id);
+    }
   };
 
   const cartDiv = (
@@ -205,6 +213,9 @@ const Dashboard = () => {
                         Price: ${item.price}
                       </p>
                       <button
+                        onClick={() =>
+                          handleAddToCartFromWishlist(item.product_id)
+                        }
                         className={` ${
                           activeTab === "wishlist" ? "" : "hidden"
                         } btn btn-sm rounded-[32px] bg-[#9538E2] text-white`}
