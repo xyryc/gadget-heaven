@@ -66,6 +66,7 @@ const Dashboard = () => {
   const handleSortByPrice = () => {
     const sortedItems = [...items].sort((a, b) => b.price - a.price);
     setItems(sortedItems);
+    toast.success("Item sorted by price!")
   };
 
   const handleTabClick = (tab) => {
@@ -196,7 +197,7 @@ const Dashboard = () => {
                   className="flex flex-col sm:flex-row gap-8 p-8"
                 >
                   <img
-                    className="h-[124px] w-[200px] rounded-xl object-cover"
+                    className="h-[124px] w-[200px] rounded-xl object-scale-down"
                     src={item.product_image}
                     alt={item.product_title}
                   />

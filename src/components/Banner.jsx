@@ -6,7 +6,7 @@ const Banner = () => {
     <div className="container mx-auto relative">
       <div className="bg-[#9538E2]  text-center text-white pt-12  pb-[268px] md:rounded-b-[32px] px-2 mb-36 sm:mb-56 lg:mb-[490px]">
         <h1 className="text-[56px] font-bold mb-6">
-          Upgrade Your Tech Accessorize with Gadget Heaven Accessories
+          Upgrade Your Tech Accessories with Gadget Heaven Accessories
         </h1>
         <p className="mb-8 sm:w-3/5 mx-auto">
           Explore the latest gadgets that will take your experience to the next

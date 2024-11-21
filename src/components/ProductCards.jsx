@@ -16,7 +16,7 @@ const ProductCards = () => {
         setProducts(data);
       } else {
         const filteredCategory = [...data].filter(
-          (coffee) => coffee.category === category
+          (item) => item.category === category
         );
         setProducts(filteredCategory);
       }
