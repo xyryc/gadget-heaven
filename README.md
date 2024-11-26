@@ -1,5 +1,7 @@
 # Gadget Heaven
 
+Gadget Heaven is an e-commerce platform that uses JSON APIs to render data. It includes cart and wishlist features with support for adding and removing items. The platform manages state using Context API and local storage for data persistence and includes a chart feature to display product statistics.
+
 [Live Website Link](https://gadget-heaven.surge.sh/)  
 [Requirement Document Link](./design_docs/requirements.pdf)
 
@@ -29,3 +31,9 @@ For managing data, this project uses:
 3. **Persisted State with Local Storage**: Cart and wishlist data are stored in local storage, ensuring items remain in place even after a page refresh.
 4. **Responsive Design**: Optimized for different screen sizes for a seamless user experience on mobile, tablet, and desktop devices.
 5. **Sort**: Allows user to sort through products in cart.
+
+## npm packages
+- react-toastify
+- react-icons
+- react-rating-stars-component
+- recharts
